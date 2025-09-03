@@ -1,21 +1,28 @@
 // trigger to play music in the background with sweetalert
+// NEW iPhone-safe start logic
 window.addEventListener('load', () => {
-    Swal.fire({
-        title: 'Do you want to play music in the background?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes',
-        cancelButtonText: 'No',
-    }).then((result) => {
-        if (result.isConfirmed) {
-            document.querySelector('.song').play();
-            animationTimeline();
-        } else {
-            animationTimeline();
-        }
-    });
+  const song = document.getElementById('song');
+  const overlay = document.getElementById('start-overlay');
+  const startBtn = document.getElementById('startBtn');
+
+  startBtn.addEventListener('click', async () => {
+    overlay.style.display = 'none'; // hide the overlay
+
+    try {
+      await song.play(); // iOS allows this because it's inside a tap
+    } catch (err) {
+      console.log("Autoplay blocked, retrying on next tap", err);
+      const resume = async () => {
+        try { await song.play(); } catch (_) {}
+        document.removeEventListener('touchstart', resume);
+        document.removeEventListener('click', resume);
+      };
+      document.addEventListener('touchstart', resume, { once: true });
+      document.addEventListener('click', resume, { once: true });
+    }
+
+    animationTimeline(); // run your existing animation
+  });
 });
 
 

@@ -16,12 +16,14 @@
 </head>
 
 <body>
+    
+<div id="start-overlay" class="start-overlay">
+  <button id="startBtn" class="start-btn">Tap to Start 🎵</button>
+</div>
 
-    <audio class="song" loop autoplay>
-        <source src="./music/hbd.mpeg">
-        </source>
-        Your browser isn't invited for super fun audio time.
-    </audio>
+<audio id="song" class="song" loop preload="auto">
+  <source src="./music/hbd.mp3" type="audio/mpeg" />
+</audio>
 
     <div class="container">
         <div class="one">
@@ -154,6 +156,8 @@
     </div>
 
 </body>
+
+
     <!-- Greensock -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>
     <!-- Sweetalert -->
